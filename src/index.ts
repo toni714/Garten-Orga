@@ -1,6 +1,21 @@
 import express from "express"
 import {Request, Response} from "express";
 
+const argon2 = require('argon2');
+
+async function try_hash(){ 
+try {
+  console.log(await argon2.hash("password"));
+  console.log("\n\n");
+  console.log(await argon2.hash("password"));
+  console.log("\n\n");
+} catch (err) {
+  
+}
+}
+
+try_hash();
+
 const app=express();
 const server=app.listen(80, ()=>{
   console.log("Now listening on Port "+80+"\n");
