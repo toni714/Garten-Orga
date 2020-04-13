@@ -1,0 +1,27 @@
+{
+  "name": "garten-orga",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toni714/Garten-Orga.git"
+  },
+  "author": "Toni Walter",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/toni714/Garten-Orga/issues"
+  },
+  "homepage": "https://github.com/toni714/Garten-Orga#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/node": "^13.11.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
