@@ -1,28 +1,37 @@
+import http from "http"
+import https from "https"
+import fs from "fs"
+
 import express from "express"
-import {Request, Response} from "express";
+import {Request, Response} from "express"
+import helmet from "helmet"
+import compression from "compression"
 
-const argon2 = require('argon2');
+//Setup http Redirect
+http.createServer((req, res)=>{
+  res.writeHead(301, {Location: 'https://'+req.headers.host+req.url})
+  res.end()
+}).listen(8080)
 
-async function try_hash(){ 
-try {
-  console.log(await argon2.hash("password"));
-  console.log("\n\n");
-  console.log(await argon2.hash("password"));
-  console.log("\n\n");
-} catch (err) {
-  
+
+//Setup https
+const ssl_options={
+  key: fs.readFileSync("cert/key.pem"),
+  cert: fs.readFileSync("cert/server.crt"),
+  dhparam: fs.readFileSync("cert/hd-ssl.pem")
 }
-}
 
-try_hash();
+//Setup Middleware
+const app=express()
+app.use(helmet())
+app.use(compression())
 
-const app=express();
-const server=app.listen(80, ()=>{
-  console.log("Now listening on Port "+80+"\n");
-});
+const _app_dir='garden-client/dist/garden-client'
 
-app.get("/*", (req:Request, res:Response)=>{
-  res.statusCode=200;
-  res.setHeader("Content-Type", "text/html");
-  res.send("<html><head><title>Trololol</title></head><body><p>Finally, you're here</p><p>I've been witing for a long time.</p><p>Good to know you are well.<br>Allright then, come in.</p></body></html>")
-});
+app.get("*.*", express.static(_app_dir, {maxAge:'1y'}))
+
+app.all("/", (req:Request, res:Response)=>{
+  res.status(200).sendFile(`/`, {root:_app_dir})
+})
+
+https.createServer(ssl_options, app).listen(8443)
