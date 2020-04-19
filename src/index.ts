@@ -12,7 +12,7 @@ http.createServer((req, res)=>{
   res.writeHead(301, {Location: 'https://'+req.headers.host+req.url})
   res.end()
 }).listen(8080)
-
+console.log("Http-Redirect now running on Port 8080")
 
 //Setup https
 const ssl_options={
@@ -35,3 +35,4 @@ app.all("/", (req:Request, res:Response)=>{
 })
 
 https.createServer(ssl_options, app).listen(8443)
+console.log("Express-Server now running on Port 8443")
